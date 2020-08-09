@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PURE JAVASCRIPT FORM </title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+            integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ=="crossorigin="anonymous"
+            />
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <!-- <h1>PURE REGISTRATION AND LOGIN FORM IN JAVASCRIPT</h1> -->
+                <h2>REGISTRATION FORM</h2>
+            </div>
+            <form action="#" class="form" id="form">
+                <div class="form-control">
+                    <label for="">Username</label>
+                    <input type="text" name="" id="username" placeholder="Enter Your Full Name" autocomplete="off">
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error Msg:</small>
+                </div>
+                <div class="form-control">
+                    <label for="">Email</label>
+                    <input type="Email" name="" id="email" placeholder="Enter Your Email" autocomplete="off">
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error Msg:</small>
+                </div>
+                <div class="form-control">
+                    <label for="">Phone Number</label>
+                    <input type="number" name="phone" id="phone"
+                        placeholder="Enter Your Phone Number"
+                        autocomplete="off">
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error Msg:</small>
+                </div>
+                <div class="form-control">
+                    <label for="">Password</label>
+                    <input type="Password" name="" id="password"
+                        placeholder="Enter Your Password">
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error Msg:</small>
+                </div>
+                <div class="form-control">
+                    <label for="">Confirm Password</label>
+                    <input type="Password" name="cpassword" id="cpassword"
+                        placeholder="Enter Your Confirm Password">
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error Msg:</small>
+                </div>
+
+                <!-- button -->
+                <input type="submit" value="Submit" name="" class="btn">
+
+
+            </form>
+        </div>
+
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <script>
+        // user jo form kae andr likh rha hai ucae bi tou fetch krna zrorri hi na
+        const form = document.getElementById('form');
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const phone = document.getElementById('phone');
+        const password = document.getElementById('password');
+        const cpassword = document.getElementById('cpassword');
+
+
+    // add event
+    // jb bi koi form pae krae click tou ake function call krna chahta hn
+    // addebent mae kn sa function listen krwana hai, or ake parameter pass krwa rhae ho
+    form.addEventListener('submit',(event)=>{
+        // jb form ko krn submit? form submit ho gia, ake bydeafult behiavour hai form ka wo nhi chyie
+        event.preventDefault();
+        // jb bi kloi buton pae suibmit krae ga, ake function call krwana hai, jhan in ko bari bari check krna hai
+        // ake function call krdeta hun
+        validate();
+    })
+
+    // ab send data bnayna hai define
+        const sendData = ( usernameVal, sRate, count) =>{
+            if(sRate === count){
+                alert("registration successfull");
+                swal("Welcome! "+usernameVal, "Registration Successful", "success");
+                location.href = `demo.html?username=${usernameVal}`
+            }
+        }
+
+
+    // ab send data bnayna hai define
+
+
+
+    // successMsg define start final data validation
+        const successMsg = (usernameVal) =>{
+            // user ki field ko access krna hai set krna hai
+            let formCon = document.getElementsByClassName('form-control');
+
+            var count = formCon.length - 1;
+
+            for(var i=0; i< formCon.length; i++){
+                if(formCon[i].className === "form-control success"){
+                    // ab yeh check krna hai kae input mae formcontrol success dono sath hai, tou her kae ake input field mae main div mae class ake sath hai kae nhi
+
+                    // her kae ka class jb scuces hai kae nhi tab mae increment kr kae ake data mae rakhna chyn ga value.
+                    var sRate = 0 + i;
+                    console.log(sRate);
+                    sendData( usernameVal, sRate, count);
+                }
+                else{
+                    return false;
+                }
+            }
+            
+        }
+    // successMsg define end
+
+
+
+    // more email validate
+    const isEmail = (emailVal) =>{
+        // kae koi starting ame email @ yeh na put kr dae or emailval mae jo value ml rha hai
+        var atSymbol = emailVal.indexOf("@");
+        if(atSymbol < 1) return false;
+        var dot = emailVal.lastIndexOf('.');
+        if(dot < atSymbol + 2) return false;
+        if(dot === emailVal.length -1) return false;
+        // agr sub thk rhta hai
+        return true;
+    }
+
+    // define the validate function
+    // yeh kia hua kae user jo bi likh rha hai
+    const validate = () =>{
+        const usernameVal = username.value.trim();
+        const emailVal= email.value.trim();
+        const phoneVal= phone.value.trim();
+        const passwordVal = password.value.trim();
+        const cpasswordVal= cpassword.value.trim();
+
+        // validate username
+        if(usernameVal === ""){
+
+       
+        // agr yeh empty nhe hai
+        // tou ame ake function call krna chyn ga
+        setErrorMsg(username, 'username cannot be blank'); // pass tow argumets
+           }
+           else if(usernameVal.length < 3){
+            setErrorMsg(username, 'username min 3 char'); 
+           }
+           else{
+            //    agr yeh dono sucess ho chuki hain
+                setSuccessMsg(username);
+           }
+
+        //    validate email
+            if(emailVal === ""){
+
+            setErrorMsg(email, 'email cannot be blank'); // pass tow argumets
+                }
+                // agr yeh function satisfy nhe hota tou yeh msg ayae ga
+        else if(!isEmail(emailVal)){
+        setErrorMsg(email, 'Not a Valid Email'); 
+    }
+        else{
+        //    agr yeh dono sucess ho chuki hain
+            setSuccessMsg(email);
+    }
+                // validate phone
+                if(phoneVal === ""){
+
+            setErrorMsg(phone, 'phone cannot be blank'); // pass tow argumets
+                }
+                // agr yeh function satisfy nhe hota tou yeh msg ayae ga
+            else if(phoneVal.length != 10){
+            setErrorMsg(phone, 'Not a Valid phone Num..'); 
+            }
+            else{
+            //    agr yeh dono sucess ho chuki hain
+            setSuccessMsg(phone);
+            }
+
+                        // validate password
+                        if(passwordVal === ""){
+
+            setErrorMsg(password, 'password cannot be null'); // pass tow argumets
+                }
+                // agr yeh function satisfy nhe hota tou yeh msg ayae ga
+            else if(passwordVal.length < 5){
+            setErrorMsg(password, 'Minimum 6 Char'); 
+            }
+            else{
+            //    agr yeh dono sucess ho chuki hain
+            setSuccessMsg(password);   
+            }
+                                // validate cpassword
+                                if(cpasswordVal === ""){
+
+                    setErrorMsg(cpassword, 'confirm password cannot be blank'); // pass tow argumets
+                        }
+                        // agr yeh function satisfy nhe hota tou yeh msg ayae ga
+                    else if(passwordVal != cpasswordVal){
+                    setErrorMsg(cpassword, 'password not matching'); 
+                    }
+                    else{
+                    //    agr yeh dono sucess ho chuki hain
+                    setSuccessMsg(cpassword);   
+                    }
+                            // ake or function call krnae wala hn start
+                // jo check kare ga sub thk hai ake nhi
+                // jb suc input field success ho jata hai tou ake data pass krna chyn ga
+                successMsg(usernameVal);
+        }
+
+
+
+        // ake or function call krnae wala hn end
+        
+
+        // error msg
+        function setErrorMsg(input, errormsgs){
+            // input kia hai parameter hai, jo kae data ko accept kr rha hai
+            // parentelement kia ho ga m,je pta lg jae ga kis kae sath kaam kr rha hn
+            const formControl = input.parentElement;
+            const small = formControl.querySelector('small');
+            // ab jo small ake andr data likha hai uc kae badlae jo user name errormsg baeja hai wo kae lna hai
+            // agr user wrong likhta hai
+            formControl.className = "form-control error";
+            small.innerText = errormsgs;
+        }
+        // define setsuccessmsg
+        function setSuccessMsg(input){
+            const formControl = input.parentElement;
+            formControl.className = "form-control success";
+        }
+
+
+
+ 
+    </script>
+    </body>
+</html>
